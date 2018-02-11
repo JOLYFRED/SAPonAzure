@@ -5,22 +5,19 @@
         "VMName": {
             "value": "testVm"
         },
-        "HANAJumpbox": {
-            "value": "yes",
-        },
         "VMSize": {
             "value": "Standard_GS5 (448 GB, Certified)"
         },
         "NetworkName": {
-            "value": "ra-sap-hana-vnet"
+            "value": "ra-sap-oracle-vnet"
         },
         "addressPrefixes": {
             "value": "10.0.0.0/16"
         },
-        "HANASubnetName": {
+        "OracleSubnetName": {
             "value": "SAPDataSubnet"
         },
-        "HANASubnetPrefix": {
+        "OracleSubnetPrefix": {
             "value": "10.0.5.0/24"
         },
         "ManagementSubnetName": {
@@ -39,7 +36,7 @@
             "value": "YourPassword"
                         },                    
         "OperatingSystem": {
-            "value":  "SLES for SAP 12 SP2"
+            "value":  "Oracle Linux 12"
         },
         "HANAVers": {
 			"value": "2.0"
@@ -60,7 +57,7 @@
             "value": "yes"
 		},
 		"DnSName": {
-            "value": "saphana",
+            "value": "saporacledns",
         },
         "StaticIP": {
           "value":  "10.0.5.4"

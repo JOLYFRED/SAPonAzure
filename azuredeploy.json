@@ -4,22 +4,11 @@
     "parameters": {
         "VMName": {
             "type": "string",
-			"defaultValue": "sapahanaarm",
+			"defaultValue": "saporaclearm",
             "metadata": {
                 "description": "VM Name"
             }
 			
-        },
-        "HANAJumpbox": {
-            "type": "string",
-			"defaultValue": "no",
-            "metadata": {
-                "description": "Choose whether to deploy a VM with HANA Studio installed"
-            },
-            "allowedValues": [
-                "yes",
-                "no"
-            ]
         },
         "VMSize": {
             "type": "string",
@@ -29,37 +18,31 @@
             "defaultValue": "Standard_GS5 (448 GB, Certified)",
             "allowedValues": [
                 "Standard_GS5 (448 GB, Certified)",
-                "Standard_M64s (1 TB)",
-                "Standard_M64ms (1.7 TB)",
-                "Standard_M128s (2 TB)",
-                "Standard_M128ms (3.8 TB)",
                 "Standard_E16s_v3 (128 GB)",
-                "Standard_E32s_v3 (256 GB)",
-                "Standard_E64s_v3 (448 GB)"
             ]
         },
         "NetworkName": {
             "type": "string",
-            "defaultValue": "ra-sap-hana-vnet",
+            "defaultValue": "ra-sap-oracle-vnet",
             "metadata": {
-                "description": "The HANA VNET"
+                "description": "The Oracle VNET"
             }
         },
         "addressPrefixes": {
             "type": "string",
             "defaultValue": "10.0.0.0/16",
             "metadata": {
-                "description": "The HANA VNET prefix"
+                "description": "The Oracle VNET prefix"
             }
         },
-        "HANASubnetName": {
+        "OracleSubnetName": {
             "type": "string",
             "defaultValue": "SAPDataSubnet",
             "metadata": {
                 "description": "The data subnet name"
             }
         },
-        "HANASubnetPrefix": {
+        "OracleSubnetPrefix": {
             "type": "string",
             "defaultValue": "10.0.5.0/24",
             "metadata": {
@@ -103,11 +86,11 @@
         "OperatingSystem": {
             "type": "string",
             "metadata": {
-                "description": "Operating system for HANA Machine"
+                "description": "Operating system for Oracle Machine"
             },
             "defaultValue": "SLES for SAP 12 SP2",
             "allowedValues": [
-                "SLES for SAP 12 SP2",
+                "Oracle Linux 12",
                 "RHEL 7.2 for SAP HANA"
             ]
         },
@@ -168,7 +151,7 @@
         },
 		"DnSName": {
             "type": "string",
-			"defaultValue": "saphanaarm",
+			"defaultValue": "saporaclearm",
             "metadata": {
                 "description": "DNS Name for public IP only"
             }
@@ -176,7 +159,7 @@
 		"StaticIP": {
           "type": "string",
           "metadata": {
-            "description": "IP Address for the HANA VM when Static IP Allocation Method has been selected"
+            "description": "IP Address for the Oracle VM when Static IP Allocation Method has been selected"
           },
           "defaultValue": "10.0.5.4"
         }               
@@ -190,7 +173,7 @@
     "hanajbUri": "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/Vms/hanajb.json",
     "hanaUri": "https://raw.githubusercontent.com/wkdang/SAPonAzure/master/hanastudio.ps1",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('NetworkName'))]",
-    "HANAsubnetRef": "[if (equals(parameters('ExistingNetworkResourceGroup'), 'no') , concat(variables('vnetID'),'/subnets/',parameters('HANASubnetName')),concat(resourceId(parameters('ExistingNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/', parameters('NetworkName')), '/subnets/',parameters('HANASubnetName')))]",
+    "OraclesubnetRef": "[if (equals(parameters('ExistingNetworkResourceGroup'), 'no') , concat(variables('vnetID'),'/subnets/',parameters('OracleSubnetName')),concat(resourceId(parameters('ExistingNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/', parameters('NetworkName')), '/subnets/',parameters('OracleSubnetName')))]",
     "mgmtSubnetRef": "[if (equals(parameters('ExistingNetworkResourceGroup'), 'no') , concat(variables('vnetID'),'/subnets/',parameters('ManagementSubnetName')),concat(resourceId(parameters('ExistingNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks/', parameters('NetworkName')), '/subnets/',parameters('ManagementSubnetName')))]",
     "vmSizeArray": "[split(parameters('vmSize'),' ')]",
     "vmSize": "[variables('vmSizeArray')[0]]",
@@ -364,9 +347,9 @@
           },
           "subnets": [
             {
-              "name": "[parameters('HANASubnetName')]",
+              "name": "[parameters('OracleSubnetName')]",
               "properties": {
-                "addressPrefix": "[parameters('HANASubnetPrefix')]",
+                "addressPrefix": "[parameters('OracleSubnetPrefix')]",
 				  "networkSecurityGroup": { 
                   "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('networkSecurityGroupName'))]" 
                }
@@ -407,8 +390,8 @@
                     "customUri": {
                         "value": "[parameters('customUri')]"
                     },
-                    "HANAsubnetRef": {
-                        "value": "[variables('HANAsubnetRef')]"
+                    "OraclesubnetRef": {
+                        "value": "[variables('OraclesubnetRef')]"
                     },
                     "OperatingSystem": {
                         "value": "[parameters('OperatingSystem')]"
@@ -466,8 +449,8 @@
                     "customUri": {
                         "value": "[parameters('customUri')]"
                     },
-                    "HANAsubnetRef": {
-                        "value": "[variables('HANAsubnetRef')]"
+                    "OraclesubnetRef": {
+                        "value": "[variables('OraclesubnetRef')]"
                     },
                     "OperatingSystem": {
                         "value": "[parameters('OperatingSystem')]"
@@ -525,8 +508,8 @@
                     "customUri": {
                         "value": "[parameters('customUri')]"
                     },
-                    "HANAsubnetRef": {
-                        "value": "[variables('HANAsubnetRef')]"
+                    "OraclesubnetRef": {
+                        "value": "[variables('OraclesubnetRef')]"
                     },
                     "OperatingSystem": {
                         "value": "[parameters('OperatingSystem')]"
@@ -584,8 +567,8 @@
                     "customUri": {
                         "value": "[parameters('customUri')]"
                     },
-                    "HANAsubnetRef": {
-                        "value": "[variables('HANAsubnetRef')]"
+                    "OraclesubnetRef": {
+                        "value": "[variables('OraclesubnetRef')]"
                     },
                     "OperatingSystem": {
                         "value": "[parameters('OperatingSystem')]"
